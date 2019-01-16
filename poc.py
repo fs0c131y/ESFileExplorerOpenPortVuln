@@ -123,6 +123,7 @@ def main():
         print('- python3 poc.py list')
         print('- python3 poc.py --get-file [filepath]')
         print('- python3 poc.py --cmd [cmd]')
+        print('- python3 poc.py --cmd [cmd] --network [network]')
         print('- python3 poc.py --cmd [cmd] --pkg [package_name]')
 
 

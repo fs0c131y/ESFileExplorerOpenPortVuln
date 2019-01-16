@@ -76,6 +76,8 @@ $ python poc.py --cmd listVideos
 
 $ python poc.py --cmd listFiles
 
+$ python poc.py --cmd listFiles --network 192.168.1.
+
 $ python poc.py list
 
 ######################
