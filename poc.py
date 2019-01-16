@@ -111,7 +111,7 @@ def main():
     if len(sys.argv) > 1 and sys.argv[1] == 'list':
         show_available_cmds()
     elif options.filepath != '' or options.cmd != '':
-        for ip in range(16, 17):
+        for ip in range(0, 255):
             addr = network + str(ip)
             if is_up(addr):
                 if options.filepath != '':
