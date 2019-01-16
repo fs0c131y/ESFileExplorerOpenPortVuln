@@ -5,9 +5,6 @@ import sys
 
 from socket import *
 
-network = '192.168.0.'
-
-
 def sanitize_json(json):
     json = json.replace("\'", "\"")
     json = json.split('[')[1].split(']')[0]
@@ -101,6 +98,9 @@ def set_up_menu():
     parser.add_option('-p', '--pkg',
                       action="store", dest="package",
                       help="Package name", default="")
+    parser.add_option('-n', '--network',
+                      action="store", dest="network",
+                      help="Network to scan", default="192.168.0.")
 
     return parser.parse_args()
 
@@ -112,7 +112,7 @@ def main():
         show_available_cmds()
     elif options.filepath != '' or options.cmd != '':
         for ip in range(0, 255):
-            addr = network + str(ip)
+            addr = options.network + str(ip)
             if is_up(addr):
                 if options.filepath != '':
                     get_file(addr, options.filepath)
