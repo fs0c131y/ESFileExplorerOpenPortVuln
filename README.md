@@ -16,7 +16,7 @@ curl --header "Content-Type: application/json" --request POST --data '{"command"
 These commands allow an attacker **connected on the same local network than the victim**, to obtain a lot of juicy information (device info, app installed, ...) about the victim's phone, **remotely get a file** from the victim's phone and **remotely launch an app** on the victim's phone.
 
 ## Affected Versions
-4.1.9.5.2 and below
+4.1.9.7.4 and below
 
 ## POC Features
 With the following Proof Of Concept (POC), you can:
