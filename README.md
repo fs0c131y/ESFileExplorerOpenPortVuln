@@ -94,7 +94,7 @@ listAppsAll: List all the apps installed (system apps included)
 getDeviceInfo: Get device info
 appPull: Pull an app from the device. Package name parameter is needed
 appLaunch: Launch an app. Package name parameter is needed
-getAppThumbnail: Get the icon of an app. Package name parameter is neededs
+getAppThumbnail: Get the icon of an app. Package name parameter is needed
 ```
 
 ## Contact
