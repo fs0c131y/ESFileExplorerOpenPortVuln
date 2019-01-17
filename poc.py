@@ -41,7 +41,7 @@ def execute_cmd(addr, cmd, package):
 
     resp = session.post(address, headers=headers, data=data, verify=False)
 
-    if cmd != 'getDeviceInfo' and cmd != 'appLaunch' and cmd != 'listAppsSdcard' and cmd != 'listVideos' and cmd != 'listFiles':
+    if not in ('getDeviceInfo', 'appLaunch', 'listAppsSdcard', 'listVideos', 'listFiles'):
         text = sanitize_json(resp.text)
     else:
         text = resp.text
