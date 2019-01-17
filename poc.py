@@ -59,7 +59,7 @@ def execute_cmd(addr, cmd, package):
 
 def is_up(addr):
     s = socket(AF_INET, SOCK_STREAM)
-    s.settimeout(1)
+    s.settimeout(0.1)
     if not s.connect_ex((addr, 59777)):
         s.close()
         return 1
