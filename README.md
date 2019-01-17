@@ -1,4 +1,4 @@
-# ES File Explorer Open Port Vulnerability
+# ES File Explorer Open Port Vulnerability - CVE-2019-6447
 As per their Google Play description:
 > ES File Explorer (File Manager) is a full-featured file (Images, Music, Movies, Documents, app) manager for both local and networked use! With over 500 million users worldwide, ES File Explorer (File Manager) helps manage your android phone and files efficiently and effectively and share files without data cost.
 
@@ -13,10 +13,10 @@ On this port, an attacker can send a JSON payload to the target
 curl --header "Content-Type: application/json" --request POST --data '{"command":"[my_awesome_cmd]"}' http://192.168.0.8:59777
 ```
 
-These commands allow an attacker **connected on the same local network than the victim**, to obtain a lot of juicy information (device info, app installed, ...) about the victim's phone, **remotely get a file** from the victim's phone and **remotely launch an app** on the victim's phone.
+These commands allow an attacker **connected on the same local network to the victim**, to obtain a lot of juicy information (device info, app installed, ...) about the victim's phone, **remotely get a file** from the victim's phone and **remotely launch an app** on the victim's phone.
 
 ## Affected Versions
-4.1.9.5.2 and below
+4.1.9.7.4 and below
 
 ## POC Features
 With the following Proof Of Concept (POC), you can:
@@ -96,7 +96,7 @@ listAppsAll: List all the apps installed (system apps included)
 getDeviceInfo: Get device info
 appPull: Pull an app from the device. Package name parameter is needed
 appLaunch: Launch an app. Package name parameter is needed
-getAppThumbnail: Get the icon of an app. Package name parameter is neededs
+getAppThumbnail: Get the icon of an app. Package name parameter is needed
 ```
 
 ## Contact
