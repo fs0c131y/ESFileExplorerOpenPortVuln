@@ -5,7 +5,6 @@ import sys
 
 from socket import *
 
-network = '192.168.0.'
 verbose = True
 
 
@@ -118,6 +117,9 @@ def set_up_menu():
     parser.add_option('-p', '--pkg',
                       action="store", dest="package",
                       help="Package name", default="")
+    parser.add_option('-n', '--network',
+                      action="store", dest="network",
+                      help="Network to scan", default="192.168.0.")
     parser.add_option('-v', '--verbose',
                       action="store_true", dest="verb",
                       help="Loud stdout")
@@ -133,7 +135,7 @@ def main():
         show_available_cmds()
     elif options.filepath != '' or options.cmd != '':
         for ip in range(0, 255):
-            addr = network + str(ip)
+            addr = options.network + str(ip)
             if verbose:
                 print('[*] Checking address: ' + addr)
 
@@ -150,6 +152,7 @@ def main():
         print('- python3 poc.py list')
         print('- python3 poc.py --get-file [filepath]')
         print('- python3 poc.py --cmd [cmd]')
+        print('- python3 poc.py --cmd [cmd] --network [network]')
         print('- python3 poc.py --cmd [cmd] --pkg [package_name]')
         print('- python3 poc.py --verbose --cmd [cmd] --pkg [package_name]')
 
