@@ -13,7 +13,7 @@ On this port, an attacker can send a JSON payload to the target
 curl --header "Content-Type: application/json" --request POST --data '{"command":"[my_awesome_cmd]"}' http://192.168.0.8:59777
 ```
 
-These commands allow an attacker **connected on the same local network than the victim**, to obtain a lot of juicy information (device info, app installed, ...) about the victim's phone, **remotely get a file** from the victim's phone and **remotely launch an app** on the victim's phone.
+These commands allow an attacker **connected on the same local network to the victim**, to obtain a lot of juicy information (device info, app installed, ...) about the victim's phone, **remotely get a file** from the victim's phone and **remotely launch an app** on the victim's phone.
 
 ## Affected Versions
 4.1.9.7.4 and below
