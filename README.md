@@ -103,4 +103,4 @@ getAppThumbnail: Get the icon of an app. Package name parameter is needed
 Follow me on [Twitter](https://twitter.com/fs0c131y)! You can also find a small part of my work at [https://fs0c131y.com](https://fs0c131y.com)
 
 ## Credits
-Following a tip, the investigation and the POC has been made with ❤️ by @fs0c131y
+Following a tip from [@moonbocal](https://twitter.com/moonbocal), the investigation and the POC has been made with ❤️ by @fs0c131y
