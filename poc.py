@@ -54,7 +54,7 @@ def execute_cmd(addr, cmd, package):
     if "NameNotFoundException" in resp.text:
         print('[!] Package \'' + package + '\' not found!')
         return
-    if cmd != 'getDeviceInfo' and cmd != 'appLaunch' and cmd != 'listAppsSdcard' and cmd != 'listVideos' and cmd != 'listFiles':
+    if cmd not in ('getDeviceInfo', 'appLaunch', 'listAppsSdcard', 'listVideos', 'listFiles'):
         text = sanitize_json(resp.text)
     else:
         text = resp.text
