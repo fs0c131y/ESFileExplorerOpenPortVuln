@@ -78,6 +78,8 @@ $ python poc.py --cmd listFiles
 
 $ python poc.py --cmd listFiles --network 192.168.1.
 
+$ python poc.py --cmd listFiles --ip 192.168.4.17
+
 $ python poc.py list
 
 ######################
