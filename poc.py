@@ -2,17 +2,12 @@ import json
 import optparse
 import requests
 import sys
+import cchardet
 
 from socket import *
 
 verbose = True
 
-
-def sanitize_json(json):
-    json = json.replace("\'", "\"")
-    json = json.split('[')[1].split(']')[0]
-    json = json[0:len(json)-6] + "}"
-    return json
 
 
 def get_file(addr, filepath):
@@ -53,10 +48,6 @@ def execute_cmd(addr, cmd, package):
     if "NameNotFoundException" in resp.text:
         print('[!] Package \'' + package + '\' not found!')
         return
-    if cmd not in ('getDeviceInfo', 'appLaunch', 'listAppsSdcard', 'listVideos', 'listFiles'):
-        text = sanitize_json(resp.text)
-    else:
-        text = resp.text
 
     if resp and resp.status_code == 200:
         if cmd == 'getAppThumbnail':
@@ -70,6 +61,8 @@ def execute_cmd(addr, cmd, package):
             with open(package + ".apk", 'wb') as f:
                 f.write(resp.content)
         else:
+            encoding = cchardet.detect(resp.content)
+            text = resp.content.decode(encoding['encoding'], 'replace')
             print(text)
 
 

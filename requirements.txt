@@ -1,3 +1,4 @@
 requests
 pylint
 autopep8
+cchardet
