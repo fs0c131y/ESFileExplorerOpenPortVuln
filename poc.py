@@ -70,7 +70,7 @@ def execute_cmd(addr, cmd, package):
             with open(package + ".apk", 'wb') as f:
                 f.write(resp.content)
         else:
-            print(text)
+            print(text.encode('utf-8'))
 
 
 def is_up(addr):
