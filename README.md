@@ -78,7 +78,7 @@ $ python poc.py --cmd listFiles
 
 $ python poc.py --cmd listFiles --network 192.168.1.
 
-$ python poc.py --cmd listFiles --ip 192.168.4.17
+$ python poc.py --cmd listFiles --ip 192.168.4.17 // You can change directory and see contents of the folder besides being able to directly download files inside the basic shell.
 
 $ python poc.py list
 
