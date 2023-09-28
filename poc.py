@@ -41,11 +41,7 @@ def execute_cmd(addr, cmd, package):
     session = requests.Session()
     headers = {"Content-Type": "application/json"}
     address = 'http://' + addr + ':59777'
-
-    if package != '':
-        data = '{ "command":' + cmd + ', "appPackageName":' + package + ' }'
-    else:
-        data = '{ "command":' + cmd + ' }'
+    data = '{ "command":' + cmd + ', "appPackageName":' + package + ' }' if package != '' else '{ "command":' + cmd + ' }'
 
     resp = session.post(address, headers=headers, data=data, verify=False)
     if verbose:
@@ -53,10 +49,8 @@ def execute_cmd(addr, cmd, package):
     if "NameNotFoundException" in resp.text:
         print('[!] Package \'' + package + '\' not found!')
         return
-    if cmd not in ('getDeviceInfo', 'appLaunch', 'listAppsSdcard', 'listVideos', 'listFiles'):
-        text = sanitize_json(resp.text)
-    else:
-        text = resp.text
+
+    text = sanitize_json(resp.text) if cmd not in ('getDeviceInfo', 'appLaunch', 'listAppsSdcard', 'listVideos', 'listFiles') else resp.text
 
     if resp and resp.status_code == 200:
         if cmd == 'getAppThumbnail':
